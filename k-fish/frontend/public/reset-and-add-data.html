@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>데이터 리셋 및 추가</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>K-Fish 샘플 데이터 관리</h1>
+    
+    <button onclick="clearAndAddData()">🔄 기존 데이터 삭제 후 샘플 데이터 추가</button>
+    <button onclick="viewCurrentData()">👁️ 현재 데이터 확인</button>
+    <button onclick="clearAllData()">🗑️ 모든 데이터 삭제</button>
+    
+    <div id="status"></div>
+    
+    <script>
+    function clearAndAddData() {
+        // 기존 데이터 삭제
+        localStorage.removeItem('fishRegistrations');
+        
+        // 새 샘플 데이터
+        const sampleData = [
+            {
+                id: Date.now() + 1,
+                species: '광어',
+                fishType: 'live',
+                unitType: 'weight',
+                specification: '2',
+                quantity: '10',
+                packagingType: null,
+                unitPrice: '35000',
+                catchDate: '2025.08.18',
+                catchLocation: '제주도',
+                producer: '김철수',
+                status: 'approved',
+                statusLabel: '승인완료',
+                registerDate: '2025.08.18'
+            },
+            {
+                id: Date.now() + 2,
+                species: '고등어',
+                fishType: 'frozen',
+                unitType: 'box',
+                specification: null,
+                quantity: '20',
+                packagingType: '박스',
+                unitPrice: '15000',
+                catchDate: '2025.08.17',
+                catchLocation: '부산',
+                producer: '김철수',
+                status: 'approved',
+                statusLabel: '승인완료',
+                registerDate: '2025.08.18'
+            },
+            {
+                id: Date.now() + 3,
+                species: '갈치',
+                fishType: 'fresh',
+                unitType: 'weight',
+                specification: '0.5',
+                quantity: '30',
+                packagingType: null,
+                unitPrice: '25000',
+                catchDate: '2025.08.18',
+                catchLocation: '포항',
+                producer: '김철수',
+                status: 'pending',
+                statusLabel: '검토중',
+                registerDate: '2025.08.18'
+            },
+            {
+                id: Date.now() + 4,
+                species: '참돔',
+                fishType: 'live',
+                unitType: 'weight',
+                specification: '1.5',
+                quantity: '15',
+                packagingType: null,
+                unitPrice: '45000',
+                catchDate: '2025.08.17',
+                catchLocation: '통영',
+                producer: '김철수',
+                status: 'approved',
+                statusLabel: '승인완료',
+                registerDate: '2025.08.17'
+            },
+            {
+                id: Date.now() + 5,
+                species: '오징어',
+                fishType: 'fresh',
+                unitType: 'box',
+                specification: null,
+                quantity: '10',
+                packagingType: 'S/P',
+                unitPrice: '18000',
+                catchDate: '2025.08.18',
+                catchLocation: '울릉도',
+                producer: '김철수',
+                status: 'pending',
+                statusLabel: '검토중',
+                registerDate: '2025.08.18'
+            },
+            {
+                id: Date.now() + 6,
+                species: '전어',
+                fishType: 'fresh',
+                unitType: 'box',
+                specification: null,
+                quantity: '25',
+                packagingType: '박스',
+                unitPrice: '12000',
+                catchDate: '2025.08.18',
+                catchLocation: '여수',
+                producer: '김철수',
+                status: 'rejected',
+                statusLabel: '승인거부',
+                registerDate: '2025.08.17'
+            },
+            {
+                id: Date.now() + 7,
+                species: '대게',
+                fishType: 'live',
+                unitType: 'weight',
+                specification: '1',
+                quantity: '8',
+                packagingType: null,
+                unitPrice: '55000',
+                catchDate: '2025.08.18',
+                catchLocation: '동해',
+                producer: '김철수',
+                status: 'approved',
+                statusLabel: '승인완료',
+                registerDate: '2025.08.18'
+            },
+            {
+                id: Date.now() + 8,
+                species: '꽃게',
+                fishType: 'live',
+                unitType: 'box',
+                specification: null,
+                quantity: '12',
+                packagingType: '박스',
+                unitPrice: '22000',
+                catchDate: '2025.08.17',
+                catchLocation: '태안',
+                producer: '김철수',
+                status: 'pending',
+                statusLabel: '검토중',
+                registerDate: '2025.08.17'
+            }
+        ];
+        
+        // localStorage에 저장
+        localStorage.setItem('fishRegistrations', JSON.stringify(sampleData));
+        
+        // 상태 표시
+        document.getElementById('status').innerHTML = `
+            <div class="status success">
+                <h3>✅ 샘플 데이터 추가 완료!</h3>
+                <p>${sampleData.length}개의 데이터가 추가되었습니다:</p>
+                <ul>
+                    <li>승인완료: ${sampleData.filter(d => d.status === 'approved').length}개</li>
+                    <li>검토중: ${sampleData.filter(d => d.status === 'pending').length}개</li>
+                    <li>승인거부: ${sampleData.filter(d => d.status === 'rejected').length}개</li>
+                </ul>
+                <p style="margin-top: 15px;">
+                    <strong>이제 어민 대시보드로 이동하세요:</strong><br>
+                    <a href="/dashboard/fisherman" style="color: #007bff;">http://localhost:3002/dashboard/fisherman</a>
+                </p>
+            </div>
+        `;
+    }
+    
+    function viewCurrentData() {
+        const data = localStorage.getItem('fishRegistrations');
+        const parsed = data ? JSON.parse(data) : [];
+        
+        document.getElementById('status').innerHTML = `
+            <div class="status info">
+                <h3>📊 현재 저장된 데이터</h3>
+                <p>총 ${parsed.length}개의 데이터가 있습니다.</p>
+                <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;">
+${JSON.stringify(parsed, null, 2)}
+                </pre>
+            </div>
+        `;
+    }
+    
+    function clearAllData() {
+        localStorage.removeItem('fishRegistrations');
+        document.getElementById('status').innerHTML = `
+            <div class="status info">
+                <h3>🗑️ 모든 데이터가 삭제되었습니다</h3>
+                <p>localStorage가 비어있습니다.</p>
+            </div>
+        `;
+    }
+    </script>
+</body>
+</html>
